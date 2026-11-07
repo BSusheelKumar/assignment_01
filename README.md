@@ -10,6 +10,8 @@ For build, launch and usage instructions, read its README:
 
 ## Demonstration Video
 
+The demonstration videos are stored in the [`media/`](media) folder of this repository.
+
 
 
 https://github.com/user-attachments/assets/4e59fe76-a2f0-4649-a6cb-52b7261fc071

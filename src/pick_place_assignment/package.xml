@@ -1,0 +1,24 @@
+<?xml version="1.0"?>
+<?xml-model href="http://download.ros.org/schema/package_format3.xsd" schematypens="http://www.w3.org/2001/XMLSchema"?>
+<package format="3">
+  <name>pick_place_assignment</name>
+  <version>1.0.0</version>
+  <description>FANUC CRX carton depalletization assessment deliverable.</description>
+  <maintainer email="susheel@todo.todo">susheel</maintainer>
+  <license>TODO</license>
+  <buildtool_depend>ament_cmake</buildtool_depend>
+  <exec_depend>launch</exec_depend><exec_depend>launch_ros</exec_depend>
+  <exec_depend>ament_index_python</exec_depend><exec_depend>python3-yaml</exec_depend>
+  <depend>rclcpp</depend><depend>sensor_msgs</depend><depend>rosgraph_msgs</depend><depend>trajectory_msgs</depend><depend>geometry_msgs</depend>
+  <depend>tf2</depend><depend>tf2_ros</depend><depend>pcl_conversions</depend>
+  <depend>visualization_msgs</depend><depend>rclpy</depend><depend>std_msgs</depend>
+  <depend>cv_bridge</depend><depend>moveit_msgs</depend><depend>shape_msgs</depend>
+  <depend>ros_gz_sim</depend><depend>ros_gz_bridge</depend><depend>ign_ros2_control</depend>
+  <depend>moveit_configs_utils</depend><depend>moveit_ros_move_group</depend>
+  <depend>moveit_ros_visualization</depend><depend>fanuc_moveit_config</depend>
+  <depend>fanuc_crx_description</depend><depend>robot_state_publisher</depend>
+  <depend>controller_manager</depend><depend>joint_state_broadcaster</depend>
+  <depend>joint_trajectory_controller</depend><depend>xacro</depend><depend>yaml_cpp_vendor</depend>
+  <exec_depend>python3-yaml</exec_depend><exec_depend>python3-numpy</exec_depend><exec_depend>python3-opencv</exec_depend>
+  <export><build_type>ament_cmake</build_type></export>
+</package>

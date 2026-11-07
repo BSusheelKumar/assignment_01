@@ -1,0 +1,66 @@
+name: ROS 2 Humble CI
+
+on:
+  # Run workflow on-demand
+  workflow_dispatch:
+  pull_request:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - ready_for_review
+  push:
+    branches:
+      - 'humble'
+    # any other branches we care about
+
+# Ensures that only one workflow per branch will run at a time
+concurrency:
+  group: ${{ github.workflow }}-${{ github.head_ref || github.ref_name }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  industrial_ci:
+    name: ROS ${{ matrix.ROS_DISTRO }} (${{ matrix.ROS_REPO }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false # should not cancel the others immediately
+      matrix:
+        ROS_DISTRO: [humble]
+        ROS_REPO: [main]
+    env:
+      CCACHE_DIR: "${{ github.workspace }}/.ccache" # directory for ccache (and how we enable ccache in industrial_ci)
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          submodules: recursive
+
+      - uses: actions/cache@v4 # fetch/store the directory used by ccache before/after the ci run
+        with:
+          path: ${{ env.CCACHE_DIR }}
+          # This configuration will always create a new ccache cache starting off from the previous one (if any).
+          # In this simple version it will be shared between all builds of the same ROS_REPO and ROS_REPO
+          # and might need some fine-tuning to match the use case
+          key: ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-${{github.run_id}}
+          restore-keys: |
+            ccache-${{ matrix.ROS_DISTRO }}-${{ matrix.ROS_REPO }}-
+      # Bypass "dubious ownership" error during fetch content of reflect-cpp.
+      # https://github.blog/open-source/git/highlights-from-git-2-36/#stricter-repository-ownership-checks
+      - shell: bash
+        run: git config --global --add safe.directory '*'
+      - uses: ros-industrial/industrial_ci@master
+        env:
+          ROS_DISTRO: ${{ matrix.ROS_DISTRO }}
+          ROS_REPO: ${{ matrix.ROS_REPO }}
+          CLANG_TIDY: true
+          CMAKE_ARGS: >-
+            -DBUILD_TESTING=1
+            -DBUILD_EXAMPLES=1
+            -DCMAKE_EXPORT_COMPILE_COMMANDS=ON
+            -DCMAKE_CXX_STANDARD=17
+            -DCMAKE_CXX_STANDARD_REQUIRED=ON
+          ADDITIONAL_DEBS: git-all
+          ROSDEP_SKIP_KEYS: fanuc_crx_description

@@ -1,0 +1,99 @@
+<?xml version="1.0" ?>
+<sdf version="1.8">
+  <world name="warehouse">
+    <physics name="1ms" type="ignored">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+    <plugin filename="ignition-gazebo-physics-system" name="ignition::gazebo::systems::Physics"/>
+    <plugin filename="ignition-gazebo-user-commands-system" name="ignition::gazebo::systems::UserCommands"/>
+    <plugin filename="ignition-gazebo-scene-broadcaster-system" name="ignition::gazebo::systems::SceneBroadcaster"/>
+    <plugin filename="ignition-gazebo-sensors-system" name="ignition::gazebo::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <light type="directional" name="sun">
+      <cast_shadows>true</cast_shadows>
+      <pose>0 0 10 0 0 0</pose>
+      <diffuse>0.9 0.9 0.9 1</diffuse>
+      <direction>-0.3 0.2 -1</direction>
+    </light>
+
+    <model name="floor">
+      <static>true</static>
+      <link name="link">
+        <pose>0 0 -0.05 0 0 0</pose>
+        <collision name="c"><geometry><box><size>8 8 0.1</size></box></geometry></collision>
+        <visual name="v">
+          <geometry><box><size>8 8 0.1</size></box></geometry>
+          <material><ambient>0.6 0.6 0.6 1</ambient><diffuse>0.6 0.6 0.6 1</diffuse></material>
+        </visual>
+      </link>
+    </model>
+
+    <model name="walls">
+      <static>true</static>
+      <link name="north"><pose>0 4.1 1.5 0 0 0</pose>
+        <collision name="c"><geometry><box><size>8.4 0.2 3</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>8.4 0.2 3</size></box></geometry>
+          <material><ambient>0.85 0.85 0.8 1</ambient><diffuse>0.85 0.85 0.8 1</diffuse></material></visual></link>
+      <link name="south"><pose>0 -4.1 1.5 0 0 0</pose>
+        <collision name="c"><geometry><box><size>8.4 0.2 3</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>8.4 0.2 3</size></box></geometry>
+          <material><ambient>0.85 0.85 0.8 1</ambient><diffuse>0.85 0.85 0.8 1</diffuse></material></visual></link>
+      <link name="east"><pose>4.1 0 1.5 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 8 3</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 8 3</size></box></geometry>
+          <material><ambient>0.85 0.85 0.8 1</ambient><diffuse>0.85 0.85 0.8 1</diffuse></material></visual></link>
+      <link name="west"><pose>-4.1 0 1.5 0 0 0</pose>
+        <collision name="c"><geometry><box><size>0.2 8 3</size></box></geometry></collision>
+        <visual name="v"><geometry><box><size>0.2 8 3</size></box></geometry>
+          <material><ambient>0.85 0.85 0.8 1</ambient><diffuse>0.85 0.85 0.8 1</diffuse></material></visual></link>
+    </model>
+
+    <!-- Pallets: 0.6 x 0.6 x 0.15 m. Must match layouts/*.yaml and the placement code later -->
+    <model name="source_pallet">
+          <static>true</static>
+          <!-- Source and destination sit side-by-side on the robot's near side. -->
+          <pose>0.80 -0.55 0.075 0 0 0</pose>
+          <link name="link">
+            <collision name="c"><geometry><box><size>0.6 0.6 0.15</size></box></geometry></collision>
+            <visual name="v"><geometry><box><size>0.6 0.6 0.15</size></box></geometry>
+              <material><ambient>0.3 0.5 0.3 1</ambient><diffuse>0.3 0.5 0.3 1</diffuse></material></visual>
+          </link>
+        </model>
+
+        <model name="dest_pallet">
+          <static>true</static>
+          <pose>-0.35 -0.95 0.075 0 0 0</pose>
+          <link name="link">
+            <collision name="c"><geometry><box><size>0.6 0.6 0.15</size></box></geometry></collision>
+            <visual name="v"><geometry><box><size>0.6 0.6 0.15</size></box></geometry>
+              <material><ambient>0.3 0.5 0.3 1</ambient><diffuse>0.3 0.5 0.3 1</diffuse></material></visual>
+          </link>
+    </model>
+
+    <model name="overhead_camera">
+      <static>true</static>
+      <pose>0.7 0 2.2 0 1.5708 0</pose>
+      <link name="link">
+        <visual name="v">
+          <geometry><box><size>0.08 0.08 0.08</size></box></geometry>
+        </visual>
+        <sensor name="rgbd" type="rgbd_camera">
+          <camera>
+            <horizontal_fov>1.2</horizontal_fov>
+            <image><width>640</width><height>480</height></image>
+            <clip><near>0.3</near><far>5.0</far></clip>
+          </camera>
+          <always_on>1</always_on>
+          <update_rate>5</update_rate>
+          <visualize>false</visualize>
+          <topic>camera</topic>
+        </sensor>
+      </link>
+    </model>
+
+
+  </world>
+</sdf>

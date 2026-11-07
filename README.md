@@ -4,6 +4,13 @@ ROS 2 workspace for the pick and place assignment (Fanuc robot).
 
 ## Demonstration Video
 
+
+
+https://github.com/user-attachments/assets/4e59fe76-a2f0-4649-a6cb-52b7261fc071
+
+
+
+
 *Demonstration of the pick and place task (sped up 2x).*
 
 ## Build and Run

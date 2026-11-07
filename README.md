@@ -2,6 +2,12 @@
 
 ROS 2 workspace for the pick and place assignment (Fanuc robot).
 
+## Main Package
+
+The main package of this workspace is **`pick_place_assignment`** (`src/pick_place_assignment`).
+For build, launch and usage instructions, read its README:
+[src/pick_place_assignment/README.md](src/pick_place_assignment/README.md)
+
 ## Demonstration Video
 
 
